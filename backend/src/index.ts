@@ -33,12 +33,30 @@ import type { CameraFeed, PitchMetrics, VIPRequest, RouteStep } from './shared-t
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Security Base: Enable Helmet headers and CORS
-app.use(helmet());
+// Security Base: Enable strict Helmet headers and restricted CORS
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'", "https:", "data:"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'none'"],
+    },
+  },
+  crossOriginEmbedderPolicy: false, // Required if loading external assets like maps/fonts
+}));
 app.use(cors({
-  origin: '*', // Allow any origin for demo purposes
+  origin: process.env.NODE_ENV === 'production' 
+    ? [/^https:\/\/.*\.onrender\.com$/, /^https:\/\/.*\.hack2skill\.com$/] 
+    : 'http://localhost:5173', 
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
 app.use(express.json());
 
