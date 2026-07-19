@@ -84,19 +84,15 @@ export const navigationRouteSchema = z.object({
   persona: z.enum(['general', 'wheelchair', 'visual', 'stroller'])
 });
 
-export const incidentReportSchema = z.object({
-  description: z.string().min(5, 'Description must be at least 5 characters').max(2000, 'Description too long'),
-  location: z.string().min(2, 'Location is required').max(100)
+export const pitchRequestSchema = z.object({
+  zoneId: z.string().min(2, 'Zone ID is required').max(50),
+  action: z.enum(['water', 'repair', 'scan', 'mow'])
 });
 
-export const announcementSchema = z.object({
-  title: z.string().min(3, 'Title too short').max(150),
-  message: z.string().min(5, 'Message too short').max(1000)
-});
-
-export const sustainabilityRequestSchema = z.object({
-  startPoint: z.string().min(1, 'Start point is required').max(150),
-  matchId: z.string().min(1, 'Match ID is required').max(50)
+export const vipRequestSchema = z.object({
+  suiteNumber: z.string().min(1, 'Suite number is required').max(10),
+  guestName: z.string().min(2, 'Guest name is required').max(100),
+  requestType: z.enum(['catering', 'concierge', 'technical', 'medical'])
 });
 
 // Middleware factory to validate bodies against Zod schemas

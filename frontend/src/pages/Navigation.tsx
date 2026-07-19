@@ -68,11 +68,11 @@ export default function Navigation() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
       {/* Route Selector Form */}
-      <div className="lg:col-span-2 glass-card p-6 flex flex-col justify-between">
+      <div className="lg:col-span-2 glass-card p-6 flex flex-col justify-between border-t-4 border-t-stadium-teal">
         <div>
-          <div className="flex items-center gap-2 mb-4 border-b border-gray-800 pb-3">
-            <Compass className="w-5 h-5 text-blue-400" />
-            <h2 className="text-lg font-bold text-white">Smart Accessibility Wayfinding</h2>
+          <div className="flex items-center gap-2 mb-4 border-b border-slate-200 pb-3">
+            <Compass className="w-5 h-5 text-stadium-teal" />
+            <h2 className="text-lg font-black text-slate-800">Smart Accessibility Wayfinding</h2>
           </div>
 
           <form onSubmit={handleGenerateRoute} className="space-y-4">
@@ -182,9 +182,9 @@ export default function Navigation() {
 
         {/* Dynamic route statistics */}
         {route && (
-          <div className="mt-6 p-4 bg-gray-900/60 rounded-xl border border-gray-800 space-y-3">
+          <div className="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
             <div className="flex justify-between items-center text-xs">
-              <span className="text-gray-400 font-semibold uppercase">Est. Travel Time:</span>
+              <span className="text-slate-500 font-bold uppercase">Est. Travel Time:</span>
               <span className="text-white font-bold text-sm bg-blue-600/20 px-2 py-0.5 rounded border border-blue-500/20">
                 {route.durationMins} mins
               </span>
@@ -213,12 +213,12 @@ export default function Navigation() {
       <div className="lg:col-span-3 glass-card p-6 flex flex-col md:flex-row gap-6">
         {/* Interactive Stadium Map Rendering */}
         <div className="flex-1 flex flex-col items-center justify-center">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-4 flex items-center gap-1.5">
-            <MapPin className="w-3.5 h-3.5 text-blue-500" />
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-1.5">
+            <MapPin className="w-3.5 h-3.5 text-stadium-teal" />
             <span>Interactive Wayfinding Overlay</span>
           </h3>
 
-          <div className="relative w-64 h-64 md:w-80 md:h-80 bg-gray-900/30 rounded-full border border-gray-800 p-2 flex items-center justify-center">
+          <div className="relative w-64 h-64 md:w-80 md:h-80 bg-slate-50 rounded-full border border-slate-200 p-2 flex items-center justify-center">
             {/* SVG layout */}
             <svg 
               viewBox="0 0 300 300" 

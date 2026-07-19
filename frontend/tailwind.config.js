@@ -8,11 +8,12 @@ export default {
     extend: {
       colors: {
         stadium: {
-          dark: '#030712', // deep gray/black
-          card: 'rgba(17, 24, 39, 0.7)', // glass card background
-          border: 'rgba(255, 255, 255, 0.08)',
-          accent: '#10B981', // Emerald green
-          brand: '#2563EB', // FIFA royal blue
+          light: '#F8FAFC', // slate-50
+          card: 'rgba(255, 255, 255, 0.85)', // light glass card
+          border: 'rgba(0, 0, 0, 0.08)',
+          accent: '#A8E10C', // FIFA Bright Green
+          brand: '#6A0572', // FIFA Purple
+          teal: '#00A896', // FIFA Teal
           gold: '#F59E0B' // Warning yellow
         }
       },

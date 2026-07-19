@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Users, AlertTriangle, ShieldCheck, Leaf, Clock, Calendar, Ticket } from 'lucide-react';
+import { Users, AlertTriangle, Sprout, Star, Clock, Calendar, ShieldAlert } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface OverviewProps {
@@ -12,114 +12,95 @@ export default function Overview({ role, token }: OverviewProps) {
   const [stats, setStats] = useState({
     attendance: 80000,
     maxCapacity: 82500,
-    densityAlerts: 1,
-    activeIncidents: 1,
-    co2Saved: 1240
+    securityThreats: 1,
+    pitchHealth: 85,
+    vipRequests: 3
   });
-
-
-  useEffect(() => {
-    // Fetch live incidents if the user has staff access
-    if (role === 'volunteer' || role === 'organizer') {
-      fetch('/api/incidents', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.incidents) {
-            setStats(prev => ({ ...prev, activeIncidents: data.incidents.length }));
-          }
-        })
-        .catch(err => console.error("Error fetching incidents:", err));
-    }
-  }, [role, token]);
 
   return (
     <div className="space-y-6">
       {/* Header section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">{t('appName')}</h1>
-          <p className="text-gray-400 mt-1">{t('tagline')}</p>
+          <h1 className="text-3xl font-black text-stadium-brand tracking-tight">{t('appName')}</h1>
+          <p className="text-slate-500 font-medium mt-1">{t('tagline')}</p>
         </div>
-        <div className="flex items-center gap-3 px-4 py-2 bg-blue-600/20 border border-blue-500/30 rounded-lg text-blue-400 text-sm">
+        <div className="flex items-center gap-3 px-4 py-2 bg-stadium-teal/10 border border-stadium-teal/20 rounded-lg text-stadium-teal font-bold text-sm shadow-sm">
           <Calendar className="w-4 h-4" />
           <span>{t('activeMatch')}: <strong>USA vs Spain</strong></span>
         </div>
       </div>
 
       {/* Grid Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {/* Attendance Card */}
         <div className="glass-card p-5 relative overflow-hidden">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Total Attendance</p>
-              <h3 className="text-2xl font-bold mt-1 text-white">80,000 / 82,500</h3>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Total Attendance</p>
+              <h3 className="text-2xl font-black mt-1 text-slate-800">80,000 <span className="text-sm font-medium text-slate-400">/ 82,500</span></h3>
             </div>
-            <div className="p-2 bg-blue-600/20 text-blue-400 rounded-lg">
+            <div className="p-2 bg-slate-100 text-slate-500 rounded-xl">
               <Users className="w-5 h-5" />
             </div>
           </div>
-          <div className="mt-4 w-full bg-gray-800 rounded-full h-1.5 overflow-hidden">
-            <div className="bg-blue-600 h-1.5 rounded-full" style={{ width: '97%' }}></div>
+          <div className="mt-4 w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+            <div className="bg-stadium-teal h-2 rounded-full" style={{ width: '97%' }}></div>
           </div>
-          <div className="mt-2 text-xs text-blue-400 flex items-center justify-between">
+          <div className="mt-2 text-xs text-stadium-teal flex items-center justify-between font-semibold">
             <span>Stadium near peak load</span>
-            <span className="font-semibold">97% Occupied</span>
+            <span>97% Occupied</span>
           </div>
         </div>
 
-        {/* Crowd Alert Card */}
-        <div className="glass-card p-5 relative overflow-hidden">
+        {/* Security Alert Card */}
+        <div className="glass-card p-5 relative overflow-hidden border-b-4 border-b-red-500">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Crowd Alert Status</p>
-              <h3 className="text-2xl font-bold mt-1 text-red-500">1 Critical Gate</h3>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Security Posture</p>
+              <h3 className="text-2xl font-black mt-1 text-red-600">ELEVATED</h3>
             </div>
-            <div className="p-2 bg-red-600/20 text-red-400 rounded-lg animate-pulse-ring">
-              <AlertTriangle className="w-5 h-5" />
+            <div className="p-2 bg-red-100 text-red-500 rounded-xl animate-pulse">
+              <ShieldAlert className="w-5 h-5" />
             </div>
           </div>
-          <div className="mt-4 flex items-center justify-between text-xs text-red-400">
-            <span>Gate B density exceeds 85%</span>
-            <span className="font-semibold">Rerouting Active</span>
+          <div className="mt-4 flex items-center justify-between text-xs text-red-600 font-semibold">
+            <span>{role === 'fan' ? 'Locked (Staff Only)' : '1 active breach detected'}</span>
+            <span>{role === 'fan' ? '' : 'West Tunnel'}</span>
           </div>
         </div>
 
-        {/* Active Incidents Card */}
+        {/* Pitch Health Card */}
         <div className="glass-card p-5 relative overflow-hidden">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Active Incidents</p>
-              <h3 className="text-2xl font-bold mt-1 text-yellow-500">
-                {role === 'fan' ? 'Protected Info' : `${stats.activeIncidents} Active`}
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Pitch AI Health</p>
+              <h3 className="text-2xl font-black mt-1 text-stadium-brand">
+                {role === 'fan' ? 'Restricted' : `${stats.pitchHealth}%`}
               </h3>
             </div>
-            <div className="p-2 bg-yellow-600/20 text-yellow-400 rounded-lg">
-              <ShieldCheck className="w-5 h-5" />
+            <div className="p-2 bg-purple-100 text-stadium-brand rounded-xl">
+              <Sprout className="w-5 h-5" />
             </div>
           </div>
-          <div className="mt-4 flex items-center justify-between text-xs text-yellow-400">
-            <span>{role === 'fan' ? 'Sign in as Staff to view' : '1 Facilities priority ticket'}</span>
-            <span className="font-semibold">{role === 'fan' ? 'Locked' : 'Open'}</span>
+          <div className="mt-4 flex items-center justify-between text-xs text-stadium-brand font-semibold">
+            <span>{role === 'fan' ? 'Sign in as Staff to view' : 'South Zone needs water'}</span>
           </div>
         </div>
 
-        {/* Sustainability Index Card */}
-        <div className="glass-card p-5 relative overflow-hidden">
+        {/* VIP Requests Card */}
+        <div className="glass-card p-5 relative overflow-hidden border-b-4 border-b-stadium-gold">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-gray-400">Transit CO2 Saved</p>
-              <h3 className="text-2xl font-bold mt-1 text-emerald-400">1,240 kg CO2</h3>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">VIP Suites</p>
+              <h3 className="text-2xl font-black mt-1 text-slate-800">{role === 'organizer' ? `${stats.vipRequests} Pending` : 'Locked'}</h3>
             </div>
-            <div className="p-2 bg-emerald-600/20 text-emerald-400 rounded-lg">
-              <Leaf className="w-5 h-5" />
+            <div className="p-2 bg-amber-100 text-amber-600 rounded-xl">
+              <Star className="w-5 h-5" />
             </div>
           </div>
-          <div className="mt-4 flex items-center justify-between text-xs text-emerald-400">
-            <span>72% Fans chose low-carbon travel</span>
-            <span className="font-semibold">+12% vs last game</span>
+          <div className="mt-4 flex items-center justify-between text-xs text-amber-600 font-semibold">
+            <span>{role === 'organizer' ? 'Immediate action required' : 'Organizer access only'}</span>
           </div>
         </div>
       </div>
@@ -127,49 +108,41 @@ export default function Overview({ role, token }: OverviewProps) {
       {/* Main Layout Splitting */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column: Match details card */}
-        <div className="glass-card p-6 flex flex-col justify-between">
+        <div className="glass-card p-6 flex flex-col justify-between border-t-4 border-t-stadium-teal">
           <div>
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-xs bg-red-600/20 text-red-400 px-2 py-1 rounded-md font-bold tracking-wider uppercase">Live Kickoff Soon</span>
-              <div className="flex items-center gap-1 text-xs text-gray-400">
-                <Clock className="w-3.5 h-3.5" />
-                <span>18:00 Local</span>
+            <div className="flex justify-between items-center mb-6">
+              <span className="text-[10px] bg-red-100 text-red-600 px-3 py-1 rounded-full font-black tracking-widest uppercase flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                Live Match
+              </span>
+              <div className="flex items-center gap-1.5 text-xs text-slate-500 font-bold">
+                <Clock className="w-4 h-4" />
+                <span>18:00 EST</span>
               </div>
             </div>
-            <div className="text-center my-6">
-              <div className="flex items-center justify-center gap-6">
+            
+            <div className="text-center my-8">
+              <div className="flex items-center justify-center gap-8">
                 <div className="flex flex-col items-center">
-                  <div className="w-16 h-16 rounded-full bg-blue-700/30 flex items-center justify-center border border-blue-500/40 text-2xl font-extrabold text-white">US</div>
-                  <span className="mt-2 text-sm font-semibold text-white">USA</span>
+                  <div className="w-20 h-20 rounded-2xl bg-blue-50 flex items-center justify-center border-2 border-blue-200 text-3xl font-black text-blue-700 shadow-sm">US</div>
+                  <span className="mt-3 text-sm font-black text-slate-700 uppercase tracking-wide">USA</span>
                 </div>
-                <span className="text-3xl font-extrabold text-gray-500">VS</span>
+                <span className="text-2xl font-black text-slate-300 italic">VS</span>
                 <div className="flex flex-col items-center">
-                  <div className="w-16 h-16 rounded-full bg-yellow-600/20 flex items-center justify-center border border-yellow-500/40 text-2xl font-extrabold text-white">ES</div>
-                  <span className="mt-2 text-sm font-semibold text-white">Spain</span>
+                  <div className="w-20 h-20 rounded-2xl bg-yellow-50 flex items-center justify-center border-2 border-yellow-200 text-3xl font-black text-yellow-600 shadow-sm">ES</div>
+                  <span className="mt-3 text-sm font-black text-slate-700 uppercase tracking-wide">Spain</span>
                 </div>
               </div>
             </div>
-            <hr className="border-gray-800 my-4" />
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Venue:</span>
-                <span className="text-white font-medium">MetLife Stadium, NJ</span>
+            
+            <div className="space-y-4 pt-6 border-t border-slate-100">
+              <div className="flex justify-between text-sm font-semibold">
+                <span className="text-slate-400 uppercase tracking-wider text-xs">Venue</span>
+                <span className="text-slate-800">MetLife Stadium, NJ</span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Group:</span>
-                <span className="text-white font-medium">Group A - Match #12</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Gate opening:</span>
-                <span className="text-white font-medium">15:00 EST (Opened)</span>
-              </div>
-            </div>
-          </div>
-          <div className="mt-6">
-            <div className="p-3 bg-gray-900/60 rounded-lg flex items-center gap-3">
-              <Ticket className="w-5 h-5 text-emerald-400 flex-shrink-0" />
-              <div className="text-xs text-gray-400">
-                Show ticket barcode at Gate A/B accessible lanes for instant bag check routing.
+              <div className="flex justify-between text-sm font-semibold">
+                <span className="text-slate-400 uppercase tracking-wider text-xs">Group</span>
+                <span className="text-slate-800">Group A - Match #12</span>
               </div>
             </div>
           </div>
@@ -177,39 +150,45 @@ export default function Overview({ role, token }: OverviewProps) {
 
         {/* Right column: Person-specific operational highlights */}
         <div className="lg:col-span-2 glass-card p-6">
-          <h2 className="text-lg font-bold text-white mb-4">Operational Status Alerts</h2>
+          <h2 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2">
+            <AlertTriangle className="w-5 h-5 text-stadium-gold" />
+            AI Command Center Feed
+          </h2>
           
           <div className="space-y-4">
-            <div className="p-4 bg-red-950/20 border border-red-900/40 rounded-lg flex gap-3">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-500 mt-1.5 flex-shrink-0 animate-pulse-red"></div>
+            <div className="p-4 bg-red-50 border border-red-100 rounded-xl flex gap-4 transition-all hover:shadow-md">
+              <div className="w-3 h-3 rounded-full bg-red-500 mt-1 flex-shrink-0 animate-pulse"></div>
               <div>
-                <h4 className="text-sm font-bold text-red-400">Gate B Ingress Congestion</h4>
-                <p className="text-xs text-gray-400 mt-0.5">
-                  Verizon gate count exceeds 85% capacity limits due to local rail arrivals. Ingress speeds delayed. Recommended: Organizers reroute incoming fans through the East concourse pathways to Gate C.
+                <h4 className="text-sm font-black text-red-700 uppercase tracking-wide">Security: Perimeter Breach (West Tunnel)</h4>
+                <p className="text-xs text-slate-600 mt-1.5 font-medium leading-relaxed">
+                  Facial recognition cameras detect unauthorized access attempting to bypass West Tunnel security. Recommend immediate deployment of tactical stewards to Zone W4.
                 </p>
               </div>
             </div>
 
-            <div className="p-4 bg-yellow-950/20 border border-yellow-900/40 rounded-lg flex gap-3">
-              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500 mt-1.5 flex-shrink-0"></div>
+            <div className="p-4 bg-purple-50 border border-purple-100 rounded-xl flex gap-4 transition-all hover:shadow-md">
+              <div className="w-3 h-3 rounded-full bg-stadium-brand mt-1 flex-shrink-0"></div>
               <div>
-                <h4 className="text-sm font-bold text-yellow-400">Facilities Maintenance Report</h4>
-                <p className="text-xs text-gray-400 mt-0.5">
+                <h4 className="text-sm font-black text-stadium-brand uppercase tracking-wide">Agronomy: Heat Stress Warning</h4>
+                <p className="text-xs text-slate-600 mt-1.5 font-medium leading-relaxed">
                   {role === 'fan' ? (
-                    "Routine maintenance checks in progress on Level 2 concessions. All passenger elevators are operational."
+                    "Routine pitch maintenance check logged."
                   ) : (
-                    `Active Ticket: Slippery water leak in Section 112. Severity: MEDIUM. Assigned response time is 10 mins. Volunteer staff have posted temporary safety markers.`
+                    `Surface temperature in the South Pitch Zone has reached 25°C with dropping moisture levels (28%). Deploy targeted sprinkler system immediately.`
                   )}
                 </p>
               </div>
             </div>
 
-            <div className="p-4 bg-emerald-950/20 border border-emerald-900/40 rounded-lg flex gap-3">
-              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0"></div>
+            <div className="p-4 bg-amber-50 border border-amber-100 rounded-xl flex gap-4 transition-all hover:shadow-md">
+              <div className="w-3 h-3 rounded-full bg-amber-500 mt-1 flex-shrink-0"></div>
               <div>
-                <h4 className="text-sm font-bold text-emerald-400">Sustainability Notice</h4>
-                <p className="text-xs text-gray-400 mt-0.5">
-                  Train departures from Secaucus Junction are running every 8 minutes. Emitted greenhouse gases are reduced by 85% when commuting by transit compared to parking lot drop-offs. Recommending transit to all fans.
+                <h4 className="text-sm font-black text-amber-700 uppercase tracking-wide">VIP: Escalation in Suite S-14</h4>
+                <p className="text-xs text-slate-600 mt-1.5 font-medium leading-relaxed">
+                  {role === 'organizer' ? 
+                    "Guest E. Musk has requested immediate premium catering. AI Agent suggests dispatching the reserve premium cart from Level 3." :
+                    "Information restricted to Match Organizers."
+                  }
                 </p>
               </div>
             </div>

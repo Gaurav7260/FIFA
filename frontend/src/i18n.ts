@@ -4,14 +4,14 @@ import { initReactI18next } from 'react-i18next';
 const resources = {
   en: {
     translation: {
-      appName: "StadiumSense AI",
-      tagline: "FIFA World Cup 2026 Operations & Experience Copilot",
+      appName: "FIFA MatchControl Pro",
+      tagline: "FIFA World Cup 2026 Operations Copilot",
       navOverview: "Overview",
-      navConcierge: "AI Concierge",
+      navCommand: "Command AI",
       navNavigation: "Smart Wayfinding",
-      navCrowd: "Crowd Analytics",
-      navOps: "Ops Copilot",
-      navSustainability: "Sustainability",
+      navSecurity: "Security Surveillance",
+      navPitch: "Pitch Management",
+      navVip: "VIP Hospitality",
       roleSelect: "Current View Role:",
       roleFan: "Fan / Visitor",
       roleVolunteer: "Volunteer / Staff",

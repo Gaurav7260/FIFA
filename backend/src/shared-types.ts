@@ -24,54 +24,55 @@ export interface NavigationRoute {
   persona: 'general' | 'wheelchair' | 'visual' | 'stroller';
 }
 
-export interface SensorData {
-  gateId: string;
-  gateName: string;
-  currentCount: number;
-  capacity: number;
-  densityPercent: number;
-  status: 'normal' | 'warning' | 'critical';
-  trend: 'up' | 'down' | 'stable';
+export interface CameraFeed {
+  cameraId: string;
+  zoneName: string;
+  activeThreats: number;
+  crowdDensityPercent: number;
+  status: 'secure' | 'monitoring' | 'breach';
+  facialRecMatches: number;
 }
 
-export interface CrowdBriefing {
+export interface SecurityBriefing {
   timestamp: number;
   briefingText: string;
-  alertLevel: 'info' | 'warning' | 'danger';
-  recommendedActions: {
+  threatLevel: 'low' | 'elevated' | 'high';
+  recommendedDeployments: {
     id: string;
     action: string;
-    targetGate: string;
-    status: 'pending' | 'approved' | 'dismissed';
+    targetZone: string;
+    status: 'pending' | 'deployed' | 'recalled';
   }[];
 }
 
-export interface IncidentReport {
-  id: string;
-  description: string;
-  category: 'facilities' | 'medical' | 'security' | 'crowd' | 'other';
-  severity: 'low' | 'medium' | 'high';
-  status: 'open' | 'resolving' | 'resolved';
+export interface PitchMetrics {
+  zoneId: string;
+  grassMoisturePercent: number;
+  surfaceTempC: number;
+  wearTearIndex: number;
+  status: 'optimal' | 'needs_water' | 'needs_repair';
+}
+
+export interface PitchAnalysis {
   timestamp: number;
-  suggestedAction: string;
-  location: string;
-  multilingualAnnouncements?: Record<string, string>; // language code -> text
-}
-
-export interface TransitOption {
-  mode: 'shuttle' | 'metro' | 'rideshare' | 'walk' | 'driving';
-  co2SavedKg: number;
-  timeMins: number;
-  co2EmittedKg: number;
-  costUsd: number;
-  details: string;
-}
-
-export interface SustainabilityForecast {
-  attendanceForecast: number;
-  predictedEnergyMwh: number;
-  predictedWasteTons: number;
-  carbonFootprintKg: number;
+  overallHealth: number; // 0-100
   aiRecommendations: string[];
+  metrics: PitchMetrics[];
+}
+
+export interface VIPRequest {
+  id: string;
+  suiteNumber: string;
+  guestName: string;
+  requestType: 'catering' | 'concierge' | 'technical' | 'medical';
+  status: 'pending' | 'in_progress' | 'fulfilled';
   timestamp: number;
+  aiSuggestedResponse: string;
+}
+
+export interface VIPSuiteMetrics {
+  totalActiveSuites: number;
+  averageResponseTimeMins: number;
+  pendingRequests: number;
+  satisfactionScore: number;
 }
