@@ -97,24 +97,24 @@ export default function VIPHospitality({ role, token }: { role: string; token: s
             </h3>
             <form onSubmit={submitRequest} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Suite Number</label>
-                <input required type="text" placeholder="e.g. S-14" value={newSuite} onChange={e => setNewSuite(e.target.value)} className="w-full glass-input px-3 py-2 text-sm" />
+                <label htmlFor="suiteNumber" className="block text-xs font-bold text-slate-500 uppercase mb-1">Suite Number</label>
+                <input id="suiteNumber" aria-label="Suite Number" required type="text" placeholder="e.g. S-14" value={newSuite} onChange={e => setNewSuite(e.target.value)} className="w-full glass-input px-3 py-2 text-sm" />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Guest Name</label>
-                <input required type="text" placeholder="e.g. J. Doe" value={newGuest} onChange={e => setNewGuest(e.target.value)} className="w-full glass-input px-3 py-2 text-sm" />
+                <label htmlFor="guestName" className="block text-xs font-bold text-slate-500 uppercase mb-1">Guest Name</label>
+                <input id="guestName" aria-label="Guest Name" required type="text" placeholder="e.g. J. Doe" value={newGuest} onChange={e => setNewGuest(e.target.value)} className="w-full glass-input px-3 py-2 text-sm" />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Request Type</label>
-                <select value={newType} onChange={e => setNewType(e.target.value)} className="w-full glass-input px-3 py-2 text-sm">
+                <label htmlFor="requestType" className="block text-xs font-bold text-slate-500 uppercase mb-1">Request Type</label>
+                <select id="requestType" aria-label="Request Type" value={newType} onChange={e => setNewType(e.target.value)} className="w-full glass-input px-3 py-2 text-sm">
                   <option value="catering">Catering / F&B</option>
                   <option value="concierge">Concierge Services</option>
                   <option value="technical">Technical Support</option>
                   <option value="medical">Medical Assistance</option>
                 </select>
               </div>
-              <button type="submit" className="w-full bg-stadium-brand hover:bg-stadium-brand/90 text-white font-bold py-2 rounded-lg flex justify-center items-center gap-2">
-                <Send className="w-4 h-4" /> Log Request
+              <button type="submit" aria-label="Log Request" className="w-full bg-stadium-brand hover:bg-stadium-brand/90 text-white font-bold py-2 rounded-lg flex justify-center items-center gap-2">
+                <Send className="w-4 h-4" aria-hidden="true" /> Log Request
               </button>
             </form>
           </div>
@@ -124,8 +124,8 @@ export default function VIPHospitality({ role, token }: { role: string; token: s
         <div className="lg:col-span-2 space-y-4">
           <div className="flex justify-between items-center">
             <h3 className="font-bold text-slate-800">Active Requests</h3>
-            <button onClick={fetchRequests} className="text-stadium-teal hover:text-stadium-teal/70 p-1">
-              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            <button onClick={fetchRequests} aria-label="Refresh requests" className="text-stadium-teal hover:text-stadium-teal/70 p-1">
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} aria-hidden="true" />
             </button>
           </div>
           
@@ -157,8 +157,8 @@ export default function VIPHospitality({ role, token }: { role: string; token: s
                   {req.status === 'in_progress' && <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold uppercase tracking-wider w-24 text-center">Active</span>}
                   
                   {req.status !== 'fulfilled' && (
-                    <button className="text-[10px] font-bold text-slate-400 hover:text-green-500 flex items-center gap-1 transition-colors border border-slate-200 hover:border-green-500 rounded px-2 py-1">
-                      <CheckCircle className="w-3 h-3" /> Mark Done
+                    <button aria-label={`Mark request ${req.id} as done`} className="text-[10px] font-bold text-slate-400 hover:text-green-500 flex items-center gap-1 transition-colors border border-slate-200 hover:border-green-500 rounded px-2 py-1">
+                      <CheckCircle className="w-3 h-3" aria-hidden="true" /> Mark Done
                     </button>
                   )}
                 </div>
