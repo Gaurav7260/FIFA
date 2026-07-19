@@ -1,5 +1,6 @@
 import Groq from 'groq-sdk';
 import { STADIUM_CONTEXT } from './data/stadiumContext.js';
+import type { CameraFeed, PitchMetrics } from './shared-types.js';
 
 const API_KEY = process.env.GROQ_API_KEY || '';
 const isFallbackMode = !API_KEY || API_KEY.trim() === '';
@@ -65,7 +66,7 @@ ${facts}`;
   }
 }
 
-export async function generateSecurityBriefing(metrics: any[]): Promise<string> {
+export async function generateSecurityBriefing(metrics: CameraFeed[]): Promise<string> {
   if (isFallbackMode || !groq) {
     return "All perimeter cameras and internal feeds report nominal activity. Security posture is GREEN.";
   }
@@ -88,7 +89,7 @@ Provide a brief, 3-sentence operational security briefing. Focus on any 'breach'
   }
 }
 
-export async function analyzePitchData(pitchData: any[]): Promise<any> {
+export async function analyzePitchData(pitchData: PitchMetrics[]): Promise<{overallHealth: number, aiRecommendations: string[]}> {
   if (isFallbackMode || !groq) {
     return { overallHealth: 85, aiRecommendations: ["Water South Zone", "Monitor West Zone wear"] };
   }
