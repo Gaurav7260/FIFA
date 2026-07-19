@@ -65,8 +65,8 @@ export default function SecuritySurveillance({ role, token }: { role: string; to
           <h1 className="text-2xl font-black text-stadium-brand">Security Surveillance</h1>
           <p className="text-sm text-slate-500">Live CCTV & Threat Detection Simulation</p>
         </div>
-        <button onClick={getBriefing} className="bg-stadium-teal hover:bg-stadium-teal/90 text-white px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 transition-colors">
-          <RefreshCw className="w-4 h-4" />
+        <button onClick={getBriefing} aria-label="Run AI Threat Scan" className="bg-stadium-teal hover:bg-stadium-teal/90 text-white px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 transition-colors">
+          <RefreshCw className="w-4 h-4" aria-hidden="true" />
           Run AI Threat Scan
         </button>
       </div>
@@ -83,7 +83,7 @@ export default function SecuritySurveillance({ role, token }: { role: string; to
 
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         {loading ? (
-          <div className="col-span-full flex justify-center p-10"><RefreshCw className="w-8 h-8 text-stadium-teal animate-spin" /></div>
+          <div className="col-span-full flex justify-center p-10" role="status" aria-label="Loading feeds"><RefreshCw className="w-8 h-8 text-stadium-teal animate-spin" aria-hidden="true" /></div>
         ) : feeds.map(feed => (
           <div key={feed.cameraId} className={`glass-card p-4 flex flex-col gap-4 relative overflow-hidden ${feed.status === 'breach' ? 'border-red-500/50 shadow-lg shadow-red-500/10' : ''}`}>
             
