@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sprout, Thermometer, Droplets, Activity, RefreshCw } from 'lucide-react';
+import { Sprout, Thermometer, Droplets, Activity, RefreshCw, MapPin } from 'lucide-react';
 
 interface PitchMetrics {
   zoneId: string;
@@ -77,8 +77,8 @@ export default function PitchManagement({ role, token }: { role: string; token: 
           <h1 className="text-2xl font-black text-stadium-brand">Pitch Management</h1>
           <p className="text-sm text-slate-500">Live Agronomy & Grass Quality Monitoring</p>
         </div>
-        <button onClick={runAnalysis} className="bg-stadium-teal hover:bg-stadium-teal/90 text-white px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2">
-          <RefreshCw className="w-4 h-4" />
+        <button onClick={runAnalysis} className="bg-stadium-teal hover:bg-stadium-teal/90 text-white px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2" aria-label="Run AI Health Scan">
+          <RefreshCw className="w-4 h-4" aria-hidden="true" />
           Run AI Health Scan
         </button>
       </div>
@@ -103,7 +103,7 @@ export default function PitchManagement({ role, token }: { role: string; token: 
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         {loading ? (
-          <div className="col-span-full flex justify-center p-10"><RefreshCw className="w-8 h-8 text-stadium-teal animate-spin" /></div>
+          <div className="col-span-full flex justify-center p-10" role="status" aria-label="Loading pitch data"><RefreshCw className="w-8 h-8 text-stadium-teal animate-spin" aria-hidden="true" /></div>
         ) : zones.map(zone => (
           <div key={zone.zoneId} className="glass-card p-4 flex flex-col gap-4">
             
@@ -142,6 +142,7 @@ export default function PitchManagement({ role, token }: { role: string; token: 
                 onClick={() => takeAction(zone.zoneId, 'water')}
                 disabled={zone.status === 'optimal'}
                 className="flex-1 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded text-xs font-bold disabled:opacity-50"
+                aria-label={`Water ${zone.zoneId}`}
               >
                 Water Zone
               </button>
@@ -149,6 +150,7 @@ export default function PitchManagement({ role, token }: { role: string; token: 
                 onClick={() => takeAction(zone.zoneId, 'repair')}
                 disabled={zone.status !== 'needs_repair'}
                 className="flex-1 py-1.5 bg-yellow-50 hover:bg-yellow-100 text-yellow-600 rounded text-xs font-bold disabled:opacity-50"
+                aria-label={`Dispatch repair to ${zone.zoneId}`}
               >
                 Dispatch Repair
               </button>
