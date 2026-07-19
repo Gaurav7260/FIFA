@@ -134,7 +134,7 @@ export default function CommandCenter({ currentLang, onLanguageChange }: Command
             </div>
           ))}
           {loading && (
-            <div className="flex gap-2 text-stadium-teal animate-pulse">
+            <div className="flex gap-2 text-stadium-teal animate-pulse" role="status" aria-label="Loading AI response">
               <span className="w-2 h-4 bg-stadium-teal inline-block"></span> Processing...
             </div>
           )}
@@ -151,14 +151,16 @@ export default function CommandCenter({ currentLang, onLanguageChange }: Command
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={loading}
+            aria-label="Command input"
             autoFocus
           />
           <button
             type="submit"
             className="p-2 bg-slate-800 hover:bg-slate-700 text-stadium-teal rounded transition-colors"
             disabled={loading || !input.trim()}
+            aria-label="Send command"
           >
-            <Terminal className="w-4 h-4" />
+            <Terminal className="w-4 h-4" aria-hidden="true" />
           </button>
         </form>
       </div>
